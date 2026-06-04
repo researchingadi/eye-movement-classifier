@@ -142,8 +142,8 @@ python run_pipeline.py --data data/processed/feature_matrix.csv --phase encoding
 ## 👥 Collaboration
 
 **PI:** Prof. Jonathan Whitlock  
-**ML & Analysis:** [Your Name]  
-**Institution:** [Your Institution]  
+**ML & Analysis:** Adi Singh  
+**Institution:** Mississippi State University
 **Status:** Active — targeting Nature publication
 
 ---
