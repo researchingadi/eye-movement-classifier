@@ -105,16 +105,6 @@ SHAP feature importance
 
 ---
 
-## 📈 Outputs
-
-Three publication-quality figures:
-
-1. **ROC Curve** — AUC with 95% CI, alongside the permutation null distribution
-2. **Confusion Matrix** — Classification accuracy broken down by task
-3. **SHAP Importance Plot** — Feature contributions, global and per-feature
-
----
-
 ## 🚀 Quickstart
 
 ```bash
@@ -127,15 +117,6 @@ python run_pipeline.py --data data/processed/feature_matrix.csv
 # Encoding features only
 python run_pipeline.py --data data/processed/feature_matrix.csv --phase encoding_only
 ```
-
----
-
-## 📖 Key References
-
-- Baym, C. L., et al. (2014). Characterizing the mechanisms of conceptual and relational memory. *Related paradigm.*
-- Lundberg & Lee (2017). A Unified Approach to Interpreting Model Predictions. *NeurIPS.* — SHAP foundation
-- Lundberg et al. (2020). From Local Explanations to Global Understanding with Explainable AI for Trees. *Nature Machine Intelligence.*
-- Ryan, J. D., & Hannula, D. E. — Eye movement research on relational memory binding.
 
 ---
 
