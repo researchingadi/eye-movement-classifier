@@ -153,6 +153,54 @@ During encoding, the display contains one scene and one object. The `StudiedItem
 
 This was pre-defined by the lab and requires no further coordinate processing on our end.
 
+
+### File: `Item_Relational_Retrieval_Data.csv`
+
+Test phase fixation dataset. One row per fixation during the test display window.
+
+| Column | Type | Description |
+|---|---|---|
+| `Subject` | Integer | Participant ID |
+| `TargetObject` | String | Name of the target object in the display |
+| `Trial` | Integer | Encoding trial number this test trial corresponds to |
+| `x`, `y` | Float | Fixation centroid coordinates (pixels) |
+| `Start`, `End`, `Duration` | Integer | Fixation timing (ms), relative to test display onset |
+| `Confidence` | Integer | Participant confidence rating (low/medium/high) |
+| `TaskOrder` | String | Task order for this participant |
+| `KeyPressed` | Integer | Participant's selection (1=object1, 2=object2, 3=object3) |
+| `ResponseTime` | Integer | Response time from display onset (ms) |
+| `Task` | String | `ITEM` or `RELATIONAL` |
+| `object1/2/3` | String | Names of objects in Top_Left, Top_Right, Bottom_Middle positions |
+| `Scene` | String | Name of the background scene |
+| `CorrectTest` | Integer | Position of correct item (1=Top_Left, 2=Top_Right, 3=Bottom_Middle) |
+| `Accuracy` | Integer | 1 = correct response, 0 = incorrect |
+| `Top_Left`, `Top_Right`, `Bottom_Middle` | Boolean | Whether fixation falls in each object ROI |
+| `Screen` | Boolean | Whether fixation is on the display at all |
+| `LookROI` | String | Which object ROI is fixated (`Top_Left`, `Top_Right`, `Bottom_Middle`, or NaN) |
+| `objectviewed` | String | Name of the object being fixated |
+| `TargetLocation` | String | Position of target — **NOTE: coding error, use `CorrectTest` instead** |
+| `LookItem` | String | `Target` or `Foil` — which item is being fixated |
+
+#### Key Facts — Retrieval Data
+- **Total rows:** 96,731 fixations
+- **Subjects:** 84 (same as encoding)
+- **Test window:** ~3000ms to ~9000ms (6-second display, offset by pre-display period)
+- **Mean fixations per trial:** 16.6 (SD = 3.8)
+- **Scene fixations:** Encoded as `LookROI = NaN` AND `Screen = True` — 26.7% of all fixations
+- **Accuracy:** Item = 90.7%, Relational = 82.0%
+
+#### Critical Data Note — TargetLocation Column
+The `TargetLocation` column contains a coding error: `Top_Right` is absent, and all trials where `CorrectTest = 2` (Top_Right) are incorrectly labeled as `Bottom_Middle`. The `CorrectTest` column is correct and will be used in all analyses. Flagged to Whitlock.
+
+#### Scene Fixations at Test
+There is no explicit `scene` value in `LookROI`. Scene/background fixations are identified as: `LookROI = NaN` AND `Screen = True`. This combination means the fixation lands on the display but outside all three object ROIs — i.e., on the background scene. This is the operationalization used for all scene-related test phase features.
+
+Scene fixation counts by task confirm theoretical predictions:
+- Item task: 10,089 scene fixations
+- Relational task: 14,851 scene fixations
+
+Relational participants look at the scene more during test because the scene is an informative retrieval cue in that task.
+
 ---
 
 ## 5. Planning Phase — Questions & Decisions Log
@@ -264,7 +312,9 @@ SHAP values are computed on a model trained on all subjects (not the LOSO folds)
 
 **Step 1 — Remove all 1-fixation trials unconditionally.** These are definite exclusions regardless of task.
 
-**Step 2 — Data-driven threshold from distribution.** After removing 1-fixation trials, plot the distribution of fixation counts and determine a principled cutoff. We built and sent Whitlock a fixation distribution plot (v2, with 1-fixation trials already excluded) to support this decision. *Awaiting final threshold from Whitlock.*
+**Step 2 — Data-driven threshold from distribution.** After removing 1-fixation trials, plot the distribution of fixation counts and determine a principled cutoff. We built and sent Whitlock a fixation distribution plot (v2, with 1-fixation trials already excluded) to support this decision. 
+
+Final decision (Whitlock, 5 June 2026): Remove trials with 1 or 2 fixations. Minimum threshold = 3 fixations. Trials with fewer than 3 fixations are excluded entirely.
 
 Additionally: apply a **±3 SD filter on fixation duration** to remove individual outlier fixations (extremely short or extremely long). This is applied at the fixation level, not the trial level — the trial stays, only the bad fixation is dropped. *Awaiting confirmation from Whitlock on whether the SD is computed globally or per-subject.*
 
@@ -325,6 +375,14 @@ Higher score = fixations spread across more distant regions of the display.
 **Question:** What counts as one "revisit" to an AOI?
 
 **Answer:** Any return to an AOI after leaving counts as one revisit. So the sequence object→scene→object = 1 object revisit. The definition is straightforward and sequence-based.
+
+### Decision 16 — ±3 SD duration filter removed from pipeline
+
+**Background:** Earlier planning included a ±3 SD fixation duration filter to remove outlier fixations, based on a preprocessing approach Whitlock had used previously.
+
+**Clarification (Whitlock, June 2026):** The ±3 SD approach was used in a different project where only the first fixation per trial was analyzed. It does not apply to this project where we are summarizing fixation behavior across the entire trial. The duration filter is removed from the preprocessing pipeline entirely.
+
+**Updated pipeline:** Step 5 (duration outlier removal) is eliminated. Preprocessing goes directly from minimum fixation threshold to subject exclusions.
 
 ---
 
@@ -518,11 +576,12 @@ The following decisions have been raised with Whitlock and are pending response:
 
 | # | Question | Asked | Status |
 |---|---|---|---|
-| 1 | Minimum fixation count threshold (pending v2 plot review) | Yes | ⏳ Awaiting |
-| 2 | ±3 SD duration filter: global mean or per-subject mean? | Yes | ⏳ Awaiting |
+| 1 | Minimum fixation count threshold (pending v2 plot review) | Yes | Closed |
+| 2 | ±3 SD duration filter: global mean or per-subject mean? | Yes | Closed |
 | 3 | Viewing distance for pixels→degrees conversion | Yes | ⏳ Awaiting |
 | 4 | Test phase eye movement data file | Yes | ✅ Arriving soon |
 | 5 | Subject count: why are subjects 39 and 61 missing? | Not yet asked | ❌ To ask |
+| 6 | | TargetLocation coding error flagged to Whitlock | Yes | ⏳ Awaiting confirmation |
 
 ---
 
@@ -539,6 +598,15 @@ The following decisions have been raised with Whitlock and are pending response:
 ### Email exchange — June 2025
 **Topic:** Resolution of all pre-build design questions  
 **Outcomes:** Early/mid/late thirds split confirmed, transition entropy cross-AOI only confirmed, fixation dispersion referenced to Ramey et al. 2020, class imbalance resolved via target==1 filter, subject exclusion threshold set at 65%, 1-fixation trial removal confirmed, ±3 SD duration filter introduced (global vs per-subject pending), both AUCs to be reported, 0.5 confusion matrix threshold confirmed.
+
+### Email exchange — June 2026 (retrieval data delivery)
+**Topic:** Retrieval data delivery + final preprocessing decisions
+**Outcomes:**
+- Retrieval data (Item_Relational_Retrieval_Data.csv) received and audited
+- Minimum fixation threshold confirmed: remove trials with 1 or 2 fixations (keep ≥ 3)
+- ±3 SD duration filter removed from pipeline — does not apply to this project
+- Viewing distance still pending (Whitlock will measure next lab visit)
+- TargetLocation column coding error identified and flagged to Whitlock — use CorrectTest instead
 
 ---
 
