@@ -587,15 +587,15 @@ The following decisions have been raised with Whitlock and are pending response:
 
 ## 12. Meeting Log
 
-### Meeting 1 — Initial scoping meeting (May 2025)
+### Meeting 1 — Initial scoping meeting (May 2026)
 **Participants:** Whitlock, student collaborator  
 **Outcomes:** Confirmed project scope (binary classifier, item vs relational), confirmed target journal (Nature), agreed on Python as analysis environment, confirmed timeline (August–September 2025), established collaborator roles (Whitlock = psychological theory and interpretation; student = ML pipeline and analysis).
 
-### Meeting 2 — Feature and design meeting (May 2025)
+### Meeting 2 — Feature and design meeting (May 2026)
 **Participants:** Whitlock, student collaborator  
 **Outcomes:** Confirmed feature set (16 measures from document + saccade amplitude = 17), confirmed LOSO as validation strategy, confirmed statistical tests (permutation + bootstrap CI), confirmed positive class (Item = 1), confirmed behavioral data (accuracy and confidence) excluded as features, agreed on three figures (ROC, confusion matrix, SHAP), confirmed encoding and test phase as separate classifiers.
 
-### Email exchange — June 2025
+### Email exchange — June 2026
 **Topic:** Resolution of all pre-build design questions  
 **Outcomes:** Early/mid/late thirds split confirmed, transition entropy cross-AOI only confirmed, fixation dispersion referenced to Ramey et al. 2020, class imbalance resolved via target==1 filter, subject exclusion threshold set at 65%, 1-fixation trial removal confirmed, ±3 SD duration filter introduced (global vs per-subject pending), both AUCs to be reported, 0.5 confusion matrix threshold confirmed.
 
