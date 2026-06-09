@@ -637,6 +637,14 @@ The following decisions have been raised with Whitlock and are pending response:
 - Viewing distance still pending (Whitlock will measure next lab visit)
 - TargetLocation column coding error identified and flagged to Whitlock — use CorrectTest instead
 
+### Email exchange — 6 June 2026 (final pre-build confirmations)
+**Outcomes:**
+- TargetLocation coding error confirmed — CorrectTest is correct
+- Subjects 39 and 61 confirmed absent — dataset is definitively 84 subjects
+- Viewing distance confirmed: 783mm (midpoint of 765mm and 800mm measurements)
+- Monitor physical dimensions requested — needed for pixels-to-degrees conversion
+- All other questions closed
+
 ---
 
 ## 13. Key References
