@@ -401,17 +401,18 @@ the original code. No impact on encoding phase pipeline.
 
 ---
 
-### Decision 19 — Viewing distance for pixels-to-degrees conversion
+### Decision 19 — Viewing distance and pixels-to-degrees conversion
 
-**Answer (Whitlock, June 2026):** Two measurements provided:
-- Eye to top of screen: 765mm
-- Eye to bottom of screen: 800mm
+**Final values confirmed:**
+- Viewing distance: 783mm (midpoint of 765mm top / 800mm bottom)
+- Monitor: 23.8 inches diagonal, 1920×1080 resolution
+- Physical dimensions: 527.3mm × 296.7mm
+- Pixels per mm: 3.642 (horizontal), 3.641 (vertical)
+- Conversion: 1 degree of visual angle = 99.4 pixels
+- Formula: degrees = 2 × arctan(pixels / (2 × 783 × 3.642))
 
-**Decision:** Use midpoint as the standard viewing distance:
-(765 + 800) / 2 = 782.5mm, rounded to 783mm for reporting.
-
-**Pending:** Physical monitor dimensions still needed to compute
-pixels-per-mm. Question sent to Whitlock.
+All saccade amplitude values computed in pixels and converted to
+degrees using this formula for reporting.
 
 ---
 
