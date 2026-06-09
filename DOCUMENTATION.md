@@ -612,7 +612,7 @@ The following decisions have been raised with Whitlock and are pending response:
 | 4 | Test phase eye movement data file | Yes | ✅ Arriving soon |
 | 5 | Subject count: why are subjects 39 and 61 missing? | ✅ Confirmed absent — 84 subjects total 
 | 6 | | TargetLocation coding error flagged to Whitlock | Yes | ✅ Confirmed — use CorrectTest |
-| 7 | | Monitor physical dimensions   | ⏳ Question sent to Whitlock |
+| 7 | | Monitor physical dimensions | ✅ 23.8 inches — conversion fully resolved |
 ---
 
 ## 12. Meeting Log
