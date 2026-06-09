@@ -607,11 +607,11 @@ The following decisions have been raised with Whitlock and are pending response:
 |---|---|---|---|
 | 1 | Minimum fixation count threshold (pending v2 plot review) | Yes | Closed |
 | 2 | ±3 SD duration filter: global mean or per-subject mean? | Yes | Closed |
-| 3 | Viewing distance for pixels→degrees conversion | Yes | ⏳ Awaiting |
+| 3 | Viewing distance for pixels→degrees conversion | Yes | ✅ 783mm (midpoint) — monitor dimensions pending |
 | 4 | Test phase eye movement data file | Yes | ✅ Arriving soon |
-| 5 | Subject count: why are subjects 39 and 61 missing? | Not yet asked | ❌ To ask |
-| 6 | | TargetLocation coding error flagged to Whitlock | Yes | ⏳ Awaiting confirmation |
-
+| 5 | Subject count: why are subjects 39 and 61 missing? | ✅ Confirmed absent — 84 subjects total 
+| 6 | | TargetLocation coding error flagged to Whitlock | Yes | ✅ Confirmed — use CorrectTest |
+| 7 | | Monitor physical dimensions   | ⏳ Question sent to Whitlock |
 ---
 
 ## 12. Meeting Log
