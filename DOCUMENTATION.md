@@ -384,6 +384,35 @@ Higher score = fixations spread across more distant regions of the display.
 
 **Updated pipeline:** Step 5 (duration outlier removal) is eliminated. Preprocessing goes directly from minimum fixation threshold to subject exclusions.
 
+### Decision 17 — Subjects 39 and 61 confirmed absent
+
+**Question:** Why are subject numbers 39 and 61 missing from the dataset?
+
+**Answer (Whitlock, June 2026):** No data exists for these two subjects.
+The dataset is definitively 84 subjects. No further investigation needed.
+
+---
+
+### Decision 18 — TargetLocation coding error confirmed
+
+**Answer (Whitlock, June 2026):** Confirmed. CorrectTest column is correct
+and will be used in all retrieval phase analyses. Whitlock is correcting
+the original code. No impact on encoding phase pipeline.
+
+---
+
+### Decision 19 — Viewing distance for pixels-to-degrees conversion
+
+**Answer (Whitlock, June 2026):** Two measurements provided:
+- Eye to top of screen: 765mm
+- Eye to bottom of screen: 800mm
+
+**Decision:** Use midpoint as the standard viewing distance:
+(765 + 800) / 2 = 782.5mm, rounded to 783mm for reporting.
+
+**Pending:** Physical monitor dimensions still needed to compute
+pixels-per-mm. Question sent to Whitlock.
+
 ---
 
 ## 6. Feature Set — Final Specification
