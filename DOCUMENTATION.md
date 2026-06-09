@@ -520,6 +520,23 @@ For each remaining trial, compute all 20 features. Output: one row per trial wit
 
 Save to `data/processed/feature_matrix_encoding.csv`. This file is the input to the classifier. It is version-controlled and never overwritten — any changes regenerate it with a new version tag.
 
+### Preprocessing Results (from step1_preprocessing.py run)
+
+| Step | Action | Trials Before | Trials After | Removed |
+|---|---|---|---|---|
+| Raw data | Loaded | 11,983 | — | — |
+| Step 1 | Target filter (target==1) | 11,983 | 6,002 | 5,981 (49.9%) |
+| Step 2 | Fixation threshold (≥3) | 6,002 | 5,664 | 338 |
+| Step 3 | Subject exclusion (≥23 trials) | 5,664 | 5,609 | 55 (Subject 2 excluded) |
+
+**Final cleaned dataset:**
+- Subjects: 83
+- ITEM trials: 2,760
+- RELATIONAL trials: 2,849
+- Total fixation rows: 56,561
+- Mean fixations per trial: ITEM = 9.0, RELATIONAL = 11.1
+- Min fixations per trial: 3, Max: 28
+
 ---
 
 ## 8. Classifier Architecture — Final Specification
@@ -616,7 +633,8 @@ clean, analysis-ready CSV for feature extraction.
 4. Exclude subjects with fewer than 23 valid trials (65% threshold)
 5. Save cleaned data to encoding_data_clean.csv
 
-**Status:** Built. Awaiting Colab run and exclusion report verification.
+**Status:** Complete. Exclusion report verified. Output: encoding_data_clean.csv
+(83 subjects, 5,609 trials, 56,561 fixation rows). Ready for feature extraction.
 
 ---
 
@@ -675,6 +693,12 @@ The following decisions have been raised with Whitlock and are pending response:
 - Viewing distance confirmed: 783mm (midpoint of 765mm and 800mm measurements)
 - Monitor physical dimensions requested — needed for pixels-to-degrees conversion
 - All other questions closed
+
+### Step 1 preprocessing run — June 2026
+Preprocessing script executed successfully in Google Colab.
+Exclusion report verified. All numbers consistent with expectations.
+One subject excluded (Subject 2, 22 ITEM trials — 1 below the 23-trial threshold).
+Clean dataset saved as encoding_data_clean.csv.
 
 ---
 
