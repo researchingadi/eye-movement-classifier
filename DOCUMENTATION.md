@@ -201,6 +201,21 @@ Scene fixation counts by task confirm theoretical predictions:
 
 Relational participants look at the scene more during test because the scene is an informative retrieval cue in that task.
 
+### Display Parameters & Visual Angle Conversion
+
+| Parameter | Value |
+|---|---|
+| Monitor size | 23.8 inches diagonal |
+| Resolution | 1920 × 1080 pixels |
+| Physical dimensions | 527.3mm × 296.7mm |
+| Viewing distance | 783mm (midpoint: 765mm top, 800mm bottom) |
+| Pixels per mm | 3.642 |
+| Pixels per degree | 99.4 |
+| Full screen width | ~19.3° |
+| Full screen height | ~10.9° |
+
+Conversion formula: `degrees = 2 × arctan(pixels / (2 × 783 × 3.642))`
+
 ---
 
 ## 5. Planning Phase — Questions & Decisions Log
