@@ -603,6 +603,21 @@ Two panels: left shows mean |SHAP| bar chart (global feature importance ranking)
 
 **Key changes from v1:** Added Step 2c (remove fixation_count == 1 trials), updated title, updated annotation box to show post-exclusion counts and cost of further thresholds.
 
+### `step1_preprocessing.py`
+
+**Purpose:** Preprocessing pipeline for the raw encoding fixation data.
+Applies all confirmed exclusion decisions in sequence and outputs a
+clean, analysis-ready CSV for feature extraction.
+
+**Steps encoded:**
+1. Load raw CSV and audit baseline counts
+2. Filter to target==1 trials (class imbalance resolution)
+3. Remove trials with fewer than 3 fixations
+4. Exclude subjects with fewer than 23 valid trials (65% threshold)
+5. Save cleaned data to encoding_data_clean.csv
+
+**Status:** Built. Awaiting Colab run and exclusion report verification.
+
 ---
 
 ### Scripts Planned (Not Yet Built)
