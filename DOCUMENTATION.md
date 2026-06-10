@@ -804,6 +804,12 @@ Feature extraction script executed successfully in Google Colab.
 Two features have expected NaN values (first_fix_latency_obj_ms: 6 trials,
 transition_entropy: 1,789 trials). Both outputs verified and saved.
 
+### Step 3 sanity check run — June 2026
+All 19 features passed direction check, all significant at p < 0.001,
+12/19 large effects. Per-subject consistency exceptional — 4 features
+at 100%, lowest at 79.5%. Five high-correlation pairs identified,
+all structurally expected. Feature matrix cleared for classifier.
+
 ---
 
 ## 13. Key References
