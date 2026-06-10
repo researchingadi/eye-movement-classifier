@@ -690,6 +690,50 @@ The transition_entropy NaN rate (31.9%) reflects a genuine behavioral
 pattern — Item task participants frequently never switch away from the
 object — and will be noted in the methods section.
 
+### `step3_sanity_check.py`
+
+**Purpose:** Pre-classifier quality gate. Verifies the feature matrix
+is behaving as expected before any classifier is trained. Checks
+NaN rates, univariate Item vs Relational comparisons with Cohen's d
+effect sizes, per-subject consistency (% of subjects individually
+showing the expected direction), and feature correlations.
+
+**Outputs:**
+- sanity_check_distributions.png — violin plots per feature
+- sanity_check_correlations.png — full correlation heatmap
+- sanity_check_consistency.png — per-subject consistency bar chart
+- Printed statistical report with t-tests and Cohen's d
+
+**Status:** Complete. All checks passed. Cleared to proceed to classifier.
+
+### Sanity Check Results
+
+**Check 1 — NaN audit:** Two features with expected NaN values only.
+No unexpected missing data.
+
+**Check 2 — Univariate comparisons:**
+- Direction correct: 19/19 features
+- Significant at p < 0.001: 19/19 features
+- Large effects (|d| > 0.8): 12/19 features
+- Top features by |d|: scene_fix_count (1.33), obj_dwell_prop (1.32),
+  scene_dwell_prop (1.32), scanpath_length_deg (1.20),
+  obj_scene_transitions (1.17)
+
+**Check 3 — Per-subject consistency:**
+- All 19 features above 80% threshold
+- 4 features at 100%: scene_fix_count, obj_scene_transitions,
+  scene_revisits, scanpath_length_deg
+- Lowest: transition_entropy at 79.5% (expected — high NaN rate)
+
+**Check 4 — High correlations (|r| > 0.90):**
+- obj_dwell_prop ←→ scene_dwell_prop: r = -1.00 (mathematical complement)
+- obj_dwell_prop ←→ scene_fix_count: r = -0.91 (shared AOI variance)
+- scene_dwell_prop ←→ scene_fix_count: r = +0.91 (shared AOI variance)
+- obj_scene_transitions ←→ obj_revisits: r = +0.95 (structurally related)
+- obj_scene_transitions ←→ scene_revisits: r = +0.92 (structurally related)
+
+All correlations are expected and require no action. Will be noted
+in the methods section. Random Forest handles correlated features naturally.
 ---
 
 ### Scripts Planned (Not Yet Built)
