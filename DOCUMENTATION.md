@@ -618,6 +618,11 @@ subject_id, trial_id, true_label, predicted_prob and predicted_class
 for both Random Forest and Logistic Regression. This file is the single
 source of truth for all downstream figures and statistics.
 
+Decision threshold: 0.5 for all hard-label metrics (accuracy, sensitivity,
+specificity, confusion matrix). Justified by balanced classes (~36 Item vs
+~36 Relational per subject after target==1 filter). Threshold is fixed and
+noted explicitly in the methods section.
+
 ---
 
 ## 9. Outputs & Figures
