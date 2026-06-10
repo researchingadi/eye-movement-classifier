@@ -947,6 +947,12 @@ All 19 features passed direction check, all significant at p < 0.001,
 at 100%, lowest at 79.5%. Five high-correlation pairs identified,
 all structurally expected. Feature matrix cleared for classifier.
 
+### Step 4 classifier run — June 2026
+LOSO completed across 83 subjects. Random Forest AUC = 0.861
+[95% CI: 0.839–0.881]. Logistic Regression AUC = 0.848. Both models
+significant and converging. SHAP top feature is scene_dwell_early_ms.
+All six output files verified. Ready for Step 5 figures.
+
 ---
 
 ## 13. Key References
