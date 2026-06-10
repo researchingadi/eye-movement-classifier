@@ -886,7 +886,38 @@ explained by trial count or represents genuine individual differences.
   Panel D: AUC vs item proportion (class balance check)
 - subject_diagnostic_summary.csv — per-subject AUC table for documentation
 
-**Status:** Built and reviewed. Awaiting Colab run.
+**Status:** Complete. Diagnostic passed. Safe to proceed to Step 5.
+
+### Subject Diagnostic Results
+
+**Overall stability:**
+- 82/83 subjects above chance (98.8%)
+- 63/83 subjects with AUC ≥ 0.80 (75.9%)
+- 37/83 subjects with AUC ≥ 0.90 (44.6%)
+- 5/83 subjects with AUC < 0.70 (6.0%)
+
+**Low-AUC subjects (AUC < 0.70):**
+
+| Subject | AUC (RF) | N trials | Item | Relational | Note |
+|---|---|---|---|---|---|
+| 9 | 0.500 | 49 | 24 | 25 | Lowest trial count — scarcity plausible |
+| 78 | 0.586 | 72 | 36 | 36 | Balanced — genuine individual difference |
+| 82 | 0.655 | 66 | 30 | 36 | Balanced — genuine individual difference |
+| 20 | 0.667 | 68 | 32 | 36 | Balanced — genuine individual difference |
+| 81 | 0.690 | 71 | 36 | 35 | Balanced — genuine individual difference |
+
+**Panel C — AUC vs trial count:** r = 0.368 (moderate).
+Trial count explains ~14% of AUC variance. Subject 9 is the only
+case where scarcity is a plausible explanation.
+
+**Panel D — AUC vs class balance:** r = -0.041 (negligible).
+Task imbalance within subjects does not explain low AUC.
+
+**Interpretation:** Low-AUC subjects largely reflect genuine individual
+differences in encoding consistency — some participants do not show
+reliable eye movement differentiation between tasks. This is a
+scientifically interesting finding and will be noted in the paper.
+Subject 9 flagged for Whitlock's attention (49 trials, AUC at chance).
 
 
 ---
@@ -970,6 +1001,12 @@ LOSO completed across 83 subjects. Random Forest AUC = 0.861
 [95% CI: 0.839–0.881]. Logistic Regression AUC = 0.848. Both models
 significant and converging. SHAP top feature is scene_dwell_early_ms.
 All six output files verified. Ready for Step 5 figures.
+
+### Step 4b subject diagnostic run — June 2026
+Subject diagnostic completed. 82/83 subjects above chance, 5/83 below
+0.70 threshold. Low AUC not explained by trial count (r=0.368) or class
+balance (r=-0.041). Model declared stable. Safe to proceed to Step 5.
+Subject 9 flagged for Whitlock — lowest trial count (49), AUC = 0.500.
 
 ---
 
