@@ -871,6 +871,24 @@ very first second of viewing.
 below Random Forest (0.861), indicating the discrimination is largely
 linear. Both models converge on the same story.
 
+### `step4b_subject_diagnostic.py`
+
+**Purpose:** Pre-figure quality gate. Verifies classifier stability
+across individual subjects before committing to publication figures.
+Identifies low-AUC subjects and checks whether poor performance is
+explained by trial count or represents genuine individual differences.
+
+**Outputs (2 files):**
+- subject_diagnostic.png — four-panel diagnostic figure
+  Panel A: sorted per-subject AUC bar chart (RF + LR)
+  Panel B: AUC distribution histogram
+  Panel C: AUC vs trial count (data-scarcity check)
+  Panel D: AUC vs item proportion (class balance check)
+- subject_diagnostic_summary.csv — per-subject AUC table for documentation
+
+**Status:** Built and reviewed. Awaiting Colab run.
+
+
 ---
 
 ### Scripts Planned (Not Yet Built)
