@@ -3,7 +3,6 @@
 
 [![Status](https://img.shields.io/badge/Status-Active%20Development-blue)]()
 [![Phase](https://img.shields.io/badge/Phase-Classifier%20Complete-green)]()
-[![Target](https://img.shields.io/badge/Target-Nature-red)]()
 [![Python](https://img.shields.io/badge/Python-3.10%2B-green)]()
 
 ---
