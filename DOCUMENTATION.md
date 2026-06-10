@@ -592,6 +592,33 @@ trials per subject is noted in the methods to contextualise the
 reliability of individual AUC estimates. No subjects are excluded
 from per-subject AUC reporting.
 
+**Updated evaluation metrics (confirmed):**
+
+| Metric | Method |
+|---|---|
+| Overall AUC | Pooled held-out predictions across all 83 LOSO folds |
+| Mean per-subject AUC | Mean ± SD of 83 individual fold AUCs |
+| 95% CI on AUC | Bootstrap resampling of pooled predictions (2000 iterations) |
+| p-value | Permutation test (deferred to final step) |
+| Confusion matrix | Hard labels at 0.5 threshold |
+| Accuracy | (TP + TN) / total trials |
+| Sensitivity | TP / (TP + FN) — Item trials correctly identified |
+| Specificity | TN / (TN + FP) — Relational trials correctly identified |
+
+**Note on p-values from Step 3 sanity check:**
+Trial-level t-tests in Step 3 are for internal pre-classifier validation
+only and will not be reported as results in the paper. Because trials
+are nested within subjects, trial-level tests inflate degrees of freedom
+and produce overly optimistic p-values. The classifier-based validation
+(LOSO AUC + permutation test) is the appropriate statistical framework
+for the paper.
+
+**Saved predictions file:**
+After LOSO, a complete trial-level predictions CSV is saved containing
+subject_id, trial_id, true_label, predicted_prob and predicted_class
+for both Random Forest and Logistic Regression. This file is the single
+source of truth for all downstream figures and statistics.
+
 ---
 
 ## 9. Outputs & Figures
