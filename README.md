@@ -1,6 +1,11 @@
 # Gaze-Based Classification of Memory Encoding Strategy
 ### Eye-Tracking Machine Learning Classifier | Whitlock Lab
 
+[![Status](https://img.shields.io/badge/Status-Active%20Development-blue)]()
+[![Phase](https://img.shields.io/badge/Phase-Classifier%20Complete-green)]()
+[![Target](https://img.shields.io/badge/Target-Nature-red)]()
+[![Python](https://img.shields.io/badge/Python-3.10%2B-green)]()
+
 ---
 
 ## Overview
@@ -10,6 +15,23 @@ This repository contains the full analysis pipeline for a binary machine learnin
 The central hypothesis is that these two encoding strategies produce detectably different gaze signatures. Item encoding should produce focal, object-directed scanning, while relational encoding should produce distributed scanning with frequent transitions between the object and scene. A classifier trained on eye movement features should be able to exploit these differences to reliably distinguish the two tasks — and the features driving that classification should map onto the psychological theory.
 
 This is a collaboration between **Prof. Jonathan Whitlock** (cognitive psychology, PI) and **[Your Name]** (ML and analysis). The work is targeting publication in **Nature**.
+
+---
+
+## Results (Encoding Phase Classifier)
+
+> **AUC = 0.861 [95% CI: 0.839–0.881]**
+> Mean per-subject AUC = 0.867 ± 0.103 | Accuracy = 78.6% | Sensitivity = 81.3% | Specificity = 76.0%
+
+| Model | Pooled AUC | 95% CI | Mean Subject AUC |
+|---|---|---|---|
+| Random Forest | **0.861** | [0.839–0.881] | 0.867 ± 0.103 |
+| Logistic Regression | 0.848 | [0.825–0.868] | 0.856 ± 0.107 |
+
+- Validated using **Leave-One-Subject-Out (LOSO)** cross-validation across 83 subjects
+- 95% CI computed via **subject-level cluster bootstrap** (2000 iterations)
+- 82/83 subjects (98.8%) classified above chance individually
+- Top SHAP feature: **early scene dwell time** — encoding strategy is detectable from the first 1333ms of viewing
 
 ---
 
@@ -49,7 +71,7 @@ The classifier operates at the **trial level**: one feature vector per encoding 
 
 ### Participants
 
-Approximately 84 participants completed the experiment. Eye movements were recorded continuously using an **SR Research EyeLink 1000** eye-tracker (1000 Hz sampling rate). All participants had normal or corrected-to-normal vision. Task order was counterbalanced across participants.
+83 participants were included in the final analysis (1 excluded for insufficient trials). Eye movements were recorded continuously using an **SR Research EyeLink 1000** eye-tracker (1000 Hz sampling rate). All participants had normal or corrected-to-normal vision. Task order was counterbalanced across participants.
 
 ### Task Design
 
@@ -70,7 +92,9 @@ Participants completed both tasks in a single session. Each task had a distinct 
 - **Eye-tracker:** SR Research EyeLink 1000, tower mount
 - **Sampling rate:** 1000 Hz
 - **Screen resolution:** 1920 × 1080 pixels
-- **Viewing distance:** TBC (Whitlock, personal communication)
+- **Viewing distance:** 783mm (midpoint: 765mm top, 800mm bottom)
+- **Physical screen size:** 23.8 inches diagonal (527.3 × 296.7mm)
+- **Pixels per degree of visual angle:** 99.4 px/deg
 - **Stimulus presentation:** SR Research Experiment Builder
 
 ### Areas of Interest (AOIs)
@@ -108,22 +132,28 @@ The primary dataset is `Item_Relational_Encoding_Data.csv` — a fixation-level 
 | `target` | Integer | `1` = target/associate trial; `0` = foil trial |
 | `StudiedItem` | Boolean | `TRUE` = fixation on object AOI; `FALSE` = fixation on scene AOI |
 
+### Preprocessing Summary
+
+| Step | Action | Trials Before | Trials After | Removed |
+|---|---|---|---|---|
+| Raw | Loaded | 11,983 | — | — |
+| Step 1 | Filter target==1 | 11,983 | 6,002 | 5,981 (49.9%) |
+| Step 2 | Remove < 3 fixations | 6,002 | 5,664 | 338 |
+| Step 3 | Subject exclusion (≥65%) | 5,664 | 5,609 | 55 (Subject 2) |
+
+**Final dataset:** 83 subjects | 2,760 Item trials | 2,849 Relational trials | 56,561 fixations
+
 ### Trial Selection
 
-The raw data contains 3x more Relational trials than Item trials due to the task structure. To resolve this imbalance and ensure theoretical comparability across tasks, the analysis is restricted to **target trials only** (`target == 1`):
-
-- **Item task:** `target` is always 1 (every encoded object goes to test)
-- **Relational task:** `target == 1` marks the associate trial — the encoded object that will be the correct answer at test
-
-This yields approximately **36 trials per task per subject**, producing a balanced classification problem where every trial in the analysis represents an encoding event where the encoded object goes on to be the correct retrieval target.
+The analysis is restricted to **target trials only** (`target == 1`) to resolve the 3:1 class imbalance and ensure theoretical comparability. In the Relational task, `target == 1` identifies the associate trial — the object that will be the correct answer at test. This yields approximately 36 trials per task per subject.
 
 ---
 
 ## Feature Set
 
-All features are computed at the **trial level** from raw fixation data. The final feature matrix has one row per trial.
+All 19 features are computed at the **trial level** from raw fixation data. One row per trial in the output feature matrix.
 
-### AOI Dwell Features
+### AOI Dwell Features (4)
 
 | Feature | Definition |
 |---|---|
@@ -132,38 +162,270 @@ All features are computed at the **trial level** from raw fixation data. The fin
 | Object fixation count | Number of fixations on object |
 | Scene fixation count | Number of fixations on scene |
 
-### Temporal Dwell Features (Thirds Split — Primary)
+### Temporal Dwell Features — Thirds Split, Primary (6)
 
 The 4000ms encoding window is divided into thirds: **early** (0–1333ms), **middle** (1334–2666ms), **late** (2667–4000ms).
 
 | Feature | Definition |
 |---|---|
-| Early object dwell time | Duration on object in 0–1333ms window |
-| Middle object dwell time | Duration on object in 1334–2666ms window |
-| Late object dwell time | Duration on object in 2667–4000ms window |
-| Early scene dwell time | Duration on scene in 0–1333ms window |
-| Middle scene dwell time | Duration on scene in 1334–2666ms window |
-| Late scene dwell time | Duration on scene in 2667–4000ms window |
+| Early / Middle / Late object dwell | Duration on object in each third (ms) |
+| Early / Middle / Late scene dwell | Duration on scene in each third (ms) |
 
-*A halves split (0–2000ms / 2001–4000ms) will also be computed as a secondary exploratory analysis.*
+*A halves split (0–2000ms / 2001–4000ms) is computed as a secondary exploratory analysis.*
 
-### Fixation Duration Features
+### Fixation Duration Features (2)
 
 | Feature | Definition |
 |---|---|
 | Mean fixation duration | Mean of all fixation durations in trial (ms) |
 | First fixation latency to object | Onset time (ms) of the first fixation on the object AOI |
 
-### Transition and Sequence Features
+### Transition and Sequence Features (4)
 
 | Feature | Definition |
 |---|---|
 | Object-scene transition count | Number of cross-AOI gaze switches (both directions) |
-| Transition entropy | Shannon H computed over {object to scene, scene to object} transition proportions. Higher values = more diverse, less stereotyped scanning. |
-| Object revisit count | Number of returns to object AOI after leaving (any return = 1 revisit) |
+| Transition entropy | Shannon H over {object→scene, scene→object} proportions. NaN → 0 (zero transitions = zero entropy). |
+| Object revisit count | Number of returns to object AOI after leaving |
 | Scene revisit count | Number of returns to scene AOI after leaving |
 
-### Spatial Features
+### Spatial Features (3)
+
+| Feature | Definition |
+|---|---|
+| Scanpath length | Sum of Euclidean distances between consecutive fixations (degrees) |
+| Fixation dispersion | k-means + silhouette composite: N_clusters × mean centroid distance (Ramey et al., 2020) |
+| Saccade amplitude (mean) | Mean inter-fixation distance (degrees of visual angle) |
+
+---
+
+## Pipeline
+
+```
+Raw fixation data (CSV)
+        |
+        v
++-------------------------+
+|      PREPROCESSING      |
+|  - Filter target==1     |
+|  - Remove < 3 fix trials|
+|  - Subject exclusions   |
+|    (>=65% of 36 trials) |
++----------+--------------+
+           |
+           v
++-------------------------+
+|   FEATURE EXTRACTION    |
+|  - 19 features          |
+|  - Trial-level          |
+|  - transition_entropy   |
+|    NaN -> 0 (principled)|
++----------+--------------+
+           |
+           v
++-------------------------+
+|    SANITY CHECK         |
+|  - Distributions        |
+|  - Effect sizes         |
+|  - Per-subject          |
+|    consistency          |
++----------+--------------+
+           |
+           v
++-------------------------+
+|       CLASSIFIER        |
+|  - Random Forest        |
+|  - Logistic Regression  |
+|  - LOSO (83 folds)      |
+|  - Fold-safe impute +   |
+|    scale (no leakage)   |
++----------+--------------+
+           |
+           v
++-------------------------+
+|  SUBJECT DIAGNOSTIC     |
+|  - Per-subject AUC      |
+|  - Low-AUC flags        |
+|  - Trial count check    |
+|  - Balance check        |
++----------+--------------+
+           |
+           v
++-------------------------+
+|   STATISTICAL TESTS     |
+|  - Subject-level        |
+|    cluster bootstrap CI |
+|  - Permutation test     |
+|    (deferred, final step|
++----------+--------------+
+           |
+           v
++-------------------------+
+|     EXPLAINABILITY      |
+|  - SHAP TreeExplainer   |
+|  - All-subject model    |
+|  - Global importance    |
++-------------------------+
+```
+
+### Validation Strategy
+
+**Leave-One-Subject-Out (LOSO)** cross-validation across 83 subjects. Each fold trains on 82 subjects and tests on 1. Preprocessing (imputation, scaling) is fit inside each fold on training data only — no leakage. This is the most conservative generalisation test available for this dataset.
+
+### Statistical Testing
+
+- **95% CI:** Subject-level cluster bootstrap (2000 iterations). Subjects resampled with replacement to respect nested trial structure. Trial-level bootstrap is not used — it underestimates variance.
+- **p-value:** Permutation test (1000 label shuffles × 83 LOSO folds) — deferred to final validation step.
+
+### Key Implementation Notes
+
+- `transition_entropy` NaN values replaced with 0 before modeling (zero transitions = zero entropy — principled, not data-driven)
+- `first_fix_latency_obj_ms` (6 NaNs) uses median imputation inside each fold
+- Decision threshold: 0.5 for all hard-label metrics (justified by balanced classes)
+- Both pooled AUC and mean per-subject AUC reported to eliminate researcher degrees of freedom
+
+---
+
+## Repository Structure
+
+```
+eye-tracking-memory-classifier/
+|
++-- data/
+|   +-- raw/                    # Original EyeLink CSVs -- never modified
+|   +-- processed/              # Feature matrices, cleaned data
+|
++-- notebooks/                  # Exploratory analysis notebooks
+|
++-- src/
+|   +-- preprocessing/          # Data loading, cleaning, exclusions
+|   +-- features/               # Trial-level feature extraction
+|   +-- classifier/             # LOSO, AUC, bootstrap CI, permutation test
+|   +-- visualization/          # ROC curve, confusion matrix, SHAP plots
+|
++-- figures/                    # Publication-quality outputs (300 DPI)
++-- results/                    # Saved model outputs, AUC scores (JSON)
++-- docs/                       # Meeting notes, decisions log
+|
++-- requirements.txt            # Python dependencies
++-- DOCUMENTATION.md            # Full project documentation and decisions log
++-- README.md                   # This file
+```
+
+### Scripts
+
+| Script | Purpose | Status |
+|---|---|---|
+| `step1_preprocessing.py` | Data cleaning and exclusions | Complete |
+| `step2_feature_extraction.py` | 19 trial-level features | Complete |
+| `step3_sanity_check.py` | Pre-classifier feature validation | Complete |
+| `step4_classifier.py` | LOSO classifier, AUC, bootstrap CI, SHAP | Complete |
+| `step4b_subject_diagnostic.py` | Per-subject AUC stability check | Complete |
+| `step5_figures.py` | Publication figures | In progress |
+
+---
+
+## Outputs
+
+### Classifier Results
+
+| File | Description |
+|---|---|
+| `loso_predictions.csv` | Trial-level predictions — source of truth for all figures |
+| `loso_results_summary.json` | All metrics (AUC, CI, confusion matrix, per-subject AUCs) |
+| `shap_values.csv` | SHAP values per trial per feature |
+| `shap_feature_importance.csv` | Feature importance ranking (mean |SHAP|) |
+| `bootstrap_auc_random_forest.csv` | 2000 bootstrap AUC samples (RF) |
+| `bootstrap_auc_logistic_regression.csv` | 2000 bootstrap AUC samples (LR) |
+| `subject_diagnostic_summary.csv` | Per-subject AUC table |
+
+### Publication Figures (in progress)
+
+| Figure | Description |
+|---|---|
+| ROC curve | AUC + 95% CI with permutation null distribution |
+| Confusion matrix | Raw counts + proportions, threshold = 0.5 |
+| SHAP importance | Mean |SHAP| bar chart + beeswarm |
+
+---
+
+## Current Status
+
+| Stage | Status |
+|---|---|
+| Experiment design review | Complete |
+| Data audit | Complete |
+| Pre-build planning (all decisions) | Complete |
+| Preprocessing pipeline | Complete — 83 subjects, 5,609 trials |
+| Feature extraction | Complete — 19 features, all sanity checks passed |
+| Classifier (LOSO) | Complete — RF AUC = 0.861 [0.839–0.881] |
+| Subject diagnostic | Complete — 82/83 subjects above chance |
+| Bootstrap CI | Complete — subject-level cluster bootstrap |
+| Permutation test | Deferred — final validation step |
+| Publication figures | In progress |
+| Test phase classifier | Awaiting retrieval data integration |
+
+---
+
+## Dependencies
+
+```
+numpy >= 1.24.0
+pandas >= 2.0.0
+scipy >= 1.10.0
+scikit-learn >= 1.3.0
+shap >= 0.44.0
+matplotlib >= 3.7.0
+seaborn >= 0.12.0
+joblib >= 1.3.0
+```
+
+---
+
+## Reproducibility
+
+- All random seeds fixed at 42
+- Raw data never modified — all preprocessing produces new files in `data/processed/`
+- Every exclusion decision logged with counts and justification in `DOCUMENTATION.md`
+- All design decisions documented with source and rationale before any code was written
+- Preprocessing applied inside each LOSO fold — no data leakage
+- Results saved with timestamps — no outputs are overwritten
+
+---
+
+## References
+
+Castelhano, M. S., Mack, M. L., & Henderson, J. M. (2009). Viewing task influences eye movement control during active scene perception. *Journal of Vision, 9*(3), 6.
+
+Cohen, N. J., & Eichenbaum, H. (1993). *Memory, Amnesia, and the Hippocampal System.* MIT Press.
+
+Henderson, J. M. (2003). Human gaze control during real-world scene perception. *Trends in Cognitive Sciences, 7*, 498–504.
+
+Henderson, J. M., Shinkareva, S. V., Wang, J., Luke, S. G., & Olejarczyk, J. (2013). Predicting cognitive state from eye movements. *PLOS ONE.*
+
+Kafkas, A., & Montaldi, D. (2011). Recognition memory strength is predicted by pupillary responses at encoding while fixation patterns distinguish recollection from familiarity. *Quarterly Journal of Experimental Psychology, 64*, 1971–1989.
+
+Kardan, O., et al. (2015). Classifying mental states from eye movements during scene viewing. *Journal of Experimental Psychology: Human Perception and Performance, 41*, 1502–1514.
+
+Loftus, G. R. (1972). Eye fixations and recognition memory for pictures. *Cognitive Psychology, 3*, 525–551.
+
+Lundberg, S. M., & Lee, S.-I. (2017). A unified approach to interpreting model predictions. *NeurIPS.*
+
+Lundberg, S. M., et al. (2020). From local explanations to global understanding with explainable AI for trees. *Nature Machine Intelligence.*
+
+Ramey, M. M., Henderson, J. M., & Yonelinas, A. P. (2020). The spatial distribution of attention predicts familiarity strength during encoding and retrieval. *Journal of Experimental Psychology: General, 149*(11), 2046–2062.
+
+Ryan, J. D., Althoff, R. R., Whitlow, S., & Cohen, N. J. (2000). Amnesia is a deficit in relational memory. *Psychological Science, 11*, 454–461.
+
+---
+
+## License
+
+This repository is private and unpublished. All data, code, and documentation are confidential pending publication.
+
+---
+
+*Eye-tracking data collected using EyeLink 1000 (SR Research Ltd.). Analysis conducted in Python 3.10+.*### Spatial Features
 
 | Feature | Definition |
 |---|---|
