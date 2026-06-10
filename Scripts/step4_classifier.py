@@ -405,16 +405,6 @@ results_lr = compute_metrics(
 
 
 # =============================================================================
-# CELL 5 — BOOTSTRAP CONFIDENCE INTERVALS
-#
-# Resample the pooled held-out predictions 2000 times with replacement.
-# Recompute AUC each time.
-# 95% CI = 2.5th to 97.5th percentile of the bootstrap distribution.
-#
-# This is done for both models.
-# =============================================================================
-
-# =============================================================================
 # CELL 5 — SUBJECT-LEVEL CLUSTER BOOTSTRAP CONFIDENCE INTERVALS
 #
 # WHY SUBJECT-LEVEL, NOT TRIAL-LEVEL:
