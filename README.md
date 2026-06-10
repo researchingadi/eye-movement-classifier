@@ -38,13 +38,13 @@ This is a collaboration between **Prof. Jonathan Whitlock** (cognitive psycholog
 
 ### The Memory Distinction
 
-Human memory is not a single system. A foundational distinction in memory research separates **item memory** — the ability to recognize or recall individual objects or facts — from **relational memory** — the ability to remember how items are connected to each other or to their context. These two forms of memory are thought to rely on partially distinct neural systems, with the hippocampus playing a particularly important role in relational binding (Cohen & Eichenbaum, 1993; Eichenbaum et al., 1994).
+Human memory is not a single system. A foundational distinction in memory research separates **item memory** — the ability to recognize or recall individual objects or facts from **relational memory** the ability to remember how items are connected to each other or to their context. These two forms of memory are thought to rely on partially distinct neural systems, with the hippocampus playing a particularly important role in relational binding (Cohen & Eichenbaum, 1993; Eichenbaum et al., 1994).
 
-Critically, the *process* of forming these two types of memory is different. Encoding an object's features requires attention focused on that object. Encoding a relationship between an object and a scene requires distributed attention — the eyes must move between the two elements, compare them, and integrate them into a unified representation.
+Critically, the *process* of forming these two types of memory is different. Encoding an object's features requires attention focused on that object. Encoding a relationship between an object and a scene requires distributed attention the eyes must move between the two elements, compare them, and integrate them into a unified representation.
 
 ### Why Eye Movements
 
-Eye movements are the primary mechanism by which humans sample visual information from the world. Where you look determines what you encode. This means the gaze record is not merely a correlate of cognitive processing — it is the channel through which visual encoding happens (Henderson, 2003). Prior work has established that:
+Eye movements are the primary mechanism by which humans sample visual information from the world. Where you look determines what you encode. This means the gaze record is not merely a correlate of cognitive processing it is the channel through which visual encoding happens (Henderson, 2003). Prior work has established that:
 
 - The number of fixations during encoding predicts subsequent memory strength (Loftus, 1972; Kafkas & Montaldi, 2011)
 - Object-to-scene gaze transitions during encoding are a direct behavioral index of relational binding (Ryan et al., 2000; Baym et al., 2014)
