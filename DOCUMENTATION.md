@@ -774,6 +774,23 @@ No unexpected missing data.
 
 All correlations are expected and require no action. Will be noted
 in the methods section. Random Forest handles correlated features naturally.
+
+### `step4_classifier.py`
+
+**Purpose:** LOSO cross-validation classifier. Trains Random Forest
+(primary) and Logistic Regression (baseline) across 83 LOSO folds.
+Computes pooled AUC, per-subject AUC, bootstrap CI, confusion matrix,
+accuracy, sensitivity, specificity. Fits all-subject SHAP model for
+feature importance.
+
+**Outputs:**
+- loso_predictions.csv — trial-level predictions (source of truth for figures)
+- loso_results_summary.json — all metrics
+- shap_values.csv — SHAP values per trial
+- shap_feature_names.csv — feature importance ranking
+
+**Status:** Built. Awaiting Colab run.
+
 ---
 
 ### Scripts Planned (Not Yet Built)
