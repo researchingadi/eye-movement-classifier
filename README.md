@@ -11,7 +11,7 @@
 
 This repository contains the full analysis pipeline for a binary machine learning classifier that predicts **memory encoding strategy** from eye movement data. Specifically, the classifier determines whether a given encoding trial came from an **Item Memory task**, where participants encoded individual object features or a **Relational Memory task**  where participants encoded how an object related to its background scene.
 
-The central hypothesis is that these two encoding strategies produce detectably different gaze signatures. Item encoding should produce focal, object-directed scanning, while relational encoding should produce distributed scanning with frequent transitions between the object and scene. A classifier trained on eye movement features should be able to exploit these differences to reliably distinguish the two tasks — and the features driving that classification should map onto the psychological theory.
+The central hypothesis is that these two encoding strategies produce detectably different gaze signatures. Item encoding should produce focal, object-directed scanning, while relational encoding should produce distributed scanning with frequent transitions between the object and scene. A classifier trained on eye movement features should be able to exploit these differences to reliably distinguish the two tasks and the features driving that classification should map onto the psychological theory.
 
 This is a collaboration between **Prof. Jonathan Whitlock** (cognitive psychology, PI) and **[Adi Singh]** (ML and analysis).
 
