@@ -680,8 +680,8 @@ The following decisions have been raised with Whitlock and are pending response:
 | 3 | Viewing distance for pixels→degrees conversion | Yes | ✅ 783mm (midpoint) — monitor dimensions pending |
 | 4 | Test phase eye movement data file | Yes | ✅ Arriving soon |
 | 5 | Subject count: why are subjects 39 and 61 missing? | Yes | ✅ Confirmed absent — 84 subjects total 
-| 6 | | TargetLocation coding error flagged to Whitlock | Yes | ✅ Confirmed — use CorrectTest |
-| 7 | | Monitor physical dimensions | Yes | ✅ 23.8 inches — conversion fully resolved |
+| 6 | TargetLocation coding error flagged to Whitlock | Yes | ✅ Confirmed — use CorrectTest |
+| 7 | Monitor physical dimensions | Yes | ✅ 23.8 inches — conversion fully resolved |
 ---
 
 ## 12. Meeting Log
