@@ -789,14 +789,45 @@ feature importance.
 - shap_values.csv — SHAP values per trial
 - shap_feature_names.csv — feature importance ranking
 
+  **transition_entropy imputation (updated):**
+NaN values in transition_entropy are replaced with 0 before the LOSO
+loop. This is a principled substitution: NaN means zero cross-AOI
+transitions occurred, and Shannon entropy is mathematically 0 for a
+single-outcome distribution. Replacing with median would incorrectly
+make "never left the object" trials appear as moderately diverse
+scanners. first_fix_latency_obj_ms (6 NaNs) retains median imputation
+inside the pipeline as genuine missing data.
+
+**Bootstrap CI method (updated):**
+Subject-level cluster bootstrap is used as the primary CI method.
+Subjects are resampled with replacement (83 → 83), and all held-out
+LOSO predictions for each sampled subject are pooled before AUC
+computation. This respects the nested structure of trials within
+subjects and produces appropriately conservative CIs for publication.
+Trial-level bootstrap is not used.
+
+**Outputs (6 files):**
+- loso_predictions.csv — trial-level predictions (source of truth for figures)
+- loso_results_summary.json — all metrics
+- shap_values.csv — SHAP values per trial
+- shap_feature_importance.csv — feature importance ranking
+- bootstrap_auc_random_forest.csv — 2000 bootstrap AUC samples (RF)
+- bootstrap_auc_logistic_regression.csv — 2000 bootstrap AUC samples (LR)
+
+**Key fixes applied before first run:**
+1. transition_entropy NaN → 0 (principled, not data-driven)
+2. Subject-level cluster bootstrap replaces trial-level bootstrap
+3. Robust SHAP version handling for both old and new SHAP API
+4. Comment corrected: permutation test deferred, not computed here
+
 **Status:** Built. Awaiting Colab run.
 
 ---
 
 ### Scripts Planned (Not Yet Built)
 
-- `preprocessing.py` — full preprocessing pipeline (Steps 1–6 above)
-- `feature_extraction.py` — compute all 20 features per trial, output feature matrix
+- `preprocessing.py` — full preprocessing pipeline (Steps 1–6 above) | Done
+- `feature_extraction.py` — compute all 20 features per trial, output feature matrix | Done
 - `classifier.py` — LOSO cross-validation, AUC, bootstrap CI, permutation test
 - `plots.py` — ROC curve, confusion matrix, SHAP figures
 - `run_pipeline.py` — end-to-end entry point
