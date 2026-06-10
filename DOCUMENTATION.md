@@ -820,7 +820,56 @@ Trial-level bootstrap is not used.
 3. Robust SHAP version handling for both old and new SHAP API
 4. Comment corrected: permutation test deferred, not computed here
 
-**Status:** Built. Awaiting Colab run.
+**Status:** Complete. All outputs verified. Results documented below.
+
+### Classifier Results — Encoding Phase
+
+**Random Forest (primary model):**
+- Pooled AUC: 0.861 [95% CI: 0.839–0.881]
+- Mean per-subject AUC: 0.867 ± 0.103
+- Per-subject AUC range: [0.500, 1.000]
+- Accuracy: 78.6%
+- Sensitivity (Item): 81.3%
+- Specificity (Relational): 76.0%
+
+**Logistic Regression (baseline):**
+- Pooled AUC: 0.848 [95% CI: 0.825–0.868]
+- Mean per-subject AUC: 0.856 ± 0.107
+- Accuracy: 78.0% | Sensitivity: 82.1% | Specificity: 74.0%
+
+**Bootstrap method:** Subject-level cluster bootstrap, 2000 iterations.
+Subjects resampled with replacement to respect nested trial structure.
+
+**Confusion matrix (Random Forest, threshold = 0.5):**
+
+|  | Pred Relational | Pred Item |
+|---|---|---|
+| True Relational | 2164 | 685 |
+| True Item | 516 | 2244 |
+
+**SHAP feature importance — top 10 (mean |SHAP|):**
+
+| Rank | Feature | Mean |SHAP| |
+|---|---|---|
+| 1 | scene_dwell_early_ms | 0.0693 |
+| 2 | obj_dwell_prop | 0.0630 |
+| 3 | scene_dwell_prop | 0.0461 |
+| 4 | fixation_dispersion | 0.0365 |
+| 5 | scene_fix_count | 0.0331 |
+| 6 | saccade_amplitude_mean_deg | 0.0315 |
+| 7 | first_fix_latency_obj_ms | 0.0302 |
+| 8 | scanpath_length_deg | 0.0261 |
+| 9 | scene_revisits | 0.0164 |
+| 10 | scene_dwell_middle_ms | 0.0155 |
+
+**Notable finding:** scene_dwell_early_ms is the top feature — where
+participants look in the first 1333ms is the most diagnostic signal.
+This suggests encoding strategy differences are detectable from the
+very first second of viewing.
+
+**Notable finding:** Logistic Regression AUC (0.848) is only 0.013
+below Random Forest (0.861), indicating the discrimination is largely
+linear. Both models converge on the same story.
 
 ---
 
