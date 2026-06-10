@@ -655,7 +655,40 @@ saccade_amplitude_mean_deg.
 - NaN handled gracefully for trials with zero AOI fixations
 - Built-in sanity check compares feature means by task against theoretical predictions
 
-**Status:** Built. Awaiting Colab run.
+**Status:** Complete. All 5,609 trials processed successfully.
+Outputs: feature_matrix_encoding.csv (19 features) and
+feature_matrix_encoding_halves.csv (17 features).
+
+### Feature Extraction Results
+
+**Output dimensions:**
+- Primary (thirds): 5,609 trials × 19 features (+ 4 metadata columns)
+- Secondary (halves): 5,609 trials × 17 features (+ 4 metadata columns)
+
+**NaN values by feature:**
+| Feature | NaN count | % | Reason |
+|---|---|---|---|
+| first_fix_latency_obj_ms | 6 | 0.1% | Trials with zero object fixations |
+| transition_entropy | 1,789 | 31.9% | Trials with zero cross-AOI transitions (mostly Item task — participants fixated only the object) |
+
+**Sanity check — feature means by task:**
+| Feature | ITEM | RELATIONAL | Expected | Result |
+|---|---|---|---|---|
+| obj_dwell_prop | 0.914 | 0.640 | ITEM > REL | ✓ |
+| scene_dwell_prop | 0.086 | 0.360 | REL > ITEM | ✓ |
+| obj_fix_count | 7.926 | 6.395 | ITEM > REL | ✓ |
+| scene_fix_count | 1.123 | 4.692 | REL > ITEM | ✓ |
+| obj_scene_transitions | 1.123 | 3.215 | REL > ITEM | ✓ |
+| transition_entropy | 0.744 | 0.861 | REL > ITEM | ✓ |
+| scanpath_length_deg | 17.666 | 40.942 | REL > ITEM | ✓ |
+| fixation_dispersion | 543.094 | 1212.146 | REL > ITEM | ✓ |
+| saccade_amplitude_mean_deg | 2.176 | 4.290 | REL > ITEM | ✓ |
+
+All 9 theoretical predictions confirmed. Effect sizes are large across
+all spatial and scene-directed features, consistent with the task design.
+The transition_entropy NaN rate (31.9%) reflects a genuine behavioral
+pattern — Item task participants frequently never switch away from the
+object — and will be noted in the methods section.
 
 ---
 
@@ -720,6 +753,12 @@ Preprocessing script executed successfully in Google Colab.
 Exclusion report verified. All numbers consistent with expectations.
 One subject excluded (Subject 2, 22 ITEM trials — 1 below the 23-trial threshold).
 Clean dataset saved as encoding_data_clean.csv.
+
+### Step 2 feature extraction run — June 2026
+Feature extraction script executed successfully in Google Colab.
+5,609 trials processed. All 9 sanity checks passed with large effect sizes.
+Two features have expected NaN values (first_fix_latency_obj_ms: 6 trials,
+transition_entropy: 1,789 trials). Both outputs verified and saved.
 
 ---
 
