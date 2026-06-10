@@ -596,10 +596,10 @@ joblib >= 1.3.0
 ## Reproducibility
 
 - All random seeds fixed at 42
-- Raw data never modified — all preprocessing produces new files in `data/processed/`
+- Raw data never modified, all preprocessing produces new files in `data/processed/`
 - Every exclusion decision is logged with counts and justification in `DOCUMENTATION.md`
 - All design decisions documented with source and rationale before any code was written
-- Results saved with timestamps — no outputs are overwritten
+- Results saved with timestamps, no outputs are overwritten
 
 ---
 
