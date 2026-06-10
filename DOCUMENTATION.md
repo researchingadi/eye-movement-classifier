@@ -583,6 +583,15 @@ Save to `data/processed/feature_matrix_encoding.csv`. This file is the input to 
 - Report global mean |SHAP| bar chart and beeswarm plot
 - This identifies which features are driving classification and whether they align with the theoretical predictions from Section 2
 
+**Per-subject AUC reporting decision (confirmed):**
+AUC is computed and reported for all 83 subjects individually.
+The overall pooled AUC (computed from all held-out predictions
+combined) is the primary metric. Mean per-subject AUC ± SD is
+reported as supporting evidence. The minimum trial count of 23
+trials per subject is noted in the methods to contextualise the
+reliability of individual AUC estimates. No subjects are excluded
+from per-subject AUC reporting.
+
 ---
 
 ## 9. Outputs & Figures
