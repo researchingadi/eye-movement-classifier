@@ -13,7 +13,7 @@ This repository contains the full analysis pipeline for a binary machine learnin
 
 The central hypothesis is that these two encoding strategies produce detectably different gaze signatures. Item encoding should produce focal, object-directed scanning, while relational encoding should produce distributed scanning with frequent transitions between the object and scene. A classifier trained on eye movement features should be able to exploit these differences to reliably distinguish the two tasks — and the features driving that classification should map onto the psychological theory.
 
-This is a collaboration between **Prof. Jonathan Whitlock** (cognitive psychology, PI) and **[Your Name]** (ML and analysis). The work is targeting publication in **Nature**.
+This is a collaboration between **Prof. Jonathan Whitlock** (cognitive psychology, PI) and **[Adi Singh]** (ML and analysis).
 
 ---
 
