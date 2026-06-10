@@ -3,7 +3,6 @@
 
 **Last Updated:** 9 June 2026  
 **Status:** Active — Pre-build planning phase complete, awaiting final decisions before feature extraction  
-**Target:** Nature publication  
 **Collaborators:** Prof. Jonathan Whitlock (PI, cognitive psychology) | [Adi Singh] (ML & analysis)
 
 ---
