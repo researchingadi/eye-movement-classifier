@@ -635,6 +635,27 @@ clean, analysis-ready CSV for feature extraction.
 
 **Status:** Complete. Exclusion report verified. Output: encoding_data_clean.csv
 (83 subjects, 5,609 trials, 56,561 fixation rows). Ready for feature extraction.
+---------------------------------------------------------------------------------
+### `step2_feature_extraction.py`
+
+**Purpose:** Computes all 20 trial-level eye movement features from the
+cleaned fixation data. Outputs two feature matrices — one using the
+primary thirds temporal split and one using the secondary halves split.
+
+**Features computed:** obj_dwell_prop, scene_dwell_prop, obj_fix_count,
+scene_fix_count, temporal dwell (thirds and halves), mean_fix_duration_ms,
+first_fix_latency_obj_ms, obj_scene_transitions, transition_entropy,
+obj_revisits, scene_revisits, scanpath_length_deg, fixation_dispersion,
+saccade_amplitude_mean_deg.
+
+**Key implementation notes:**
+- Fixations sorted by Start time before any sequence-based computation
+- Dispersion uses Ramey et al. 2020 k-means + silhouette method
+- Saccade amplitude and scanpath length converted to degrees of visual angle
+- NaN handled gracefully for trials with zero AOI fixations
+- Built-in sanity check compares feature means by task against theoretical predictions
+
+**Status:** Built. Awaiting Colab run.
 
 ---
 
