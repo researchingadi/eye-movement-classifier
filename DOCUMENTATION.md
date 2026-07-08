@@ -938,6 +938,14 @@ scikit-learn RF uses CPU only — no GPU acceleration.
 - permutation_null_dist_rf.csv — 1000 null AUC values (RF), for figures
 - permutation_null_dist_lr.csv — 1000 null AUC values (LR), for figures
 
+  **Final parameters:**
+- N_PERMUTATIONS = 500 (minimum p = 1/501 = 0.002)
+- Estimated runtime: 45–90 minutes on Colab CPU
+- N_TREES_NULL = 100 (null models only; observed AUC used 500 trees)
+- RF only — LR not included in permutation test
+- Within-subject label shuffling
+- Plus-one p-value correction
+
 **Status:** Built. Awaiting Colab run.
 
 
