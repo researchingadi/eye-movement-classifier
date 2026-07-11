@@ -974,6 +974,21 @@ with SD = 0.011. The observed AUC of 0.861 is 0.329 units above the
 null maximum of 0.532. Zero of 200 permutations exceeded the observed
 AUC. The classifier performance is unambiguously above chance.
 
+
+### `step5_figures.py`
+
+**Purpose:** Generates all four publication-quality figures from
+completed classifier outputs. Each figure saved as separate PDF at 300 DPI.
+
+**Outputs:**
+- figure1_roc.pdf — ROC curve (RF + LR) + permutation null distribution
+- figure2_confusion.pdf — Confusion matrix, RF primary, metrics annotated
+- figure3_shap.pdf — SHAP bar chart + beeswarm, all 19 features
+- figure_s1_subject_auc.pdf — Per-subject AUC distribution (supplementary)
+
+**Color spec:** #2166AC (Item/RF), #D6604D (Relational/low),
+#888888 (neutral), #222222 (text), #F5F5F5 (annotation boxes only)
+
 **Status:** Built. Awaiting Colab run.
 
 
