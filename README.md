@@ -575,6 +575,7 @@ python run_pipeline.py --data data/processed/feature_matrix_encoding.csv
 | SHAP explainability | Not started |
 | Test phase classifier | Awaiting test phase data |
 | Figures | Not started |
+| Permutation test | Complete — p = .005 |
 
 ---
 
