@@ -950,6 +950,30 @@ scikit-learn RF uses CPU only — no GPU acceleration.
   observed AUC of 0.861. Final 200-permutation run is for clean
   documented output files.
 
+### Permutation Test Results
+
+**Configuration:**
+- N permutations: 200
+- Trees (null): 100 | Trees (observed): 500
+- Shuffle method: within-subject
+- p-value correction: plus-one
+- Total runtime: 568.9 minutes (~9.5 hours)
+
+**Results:**
+- Observed AUC: 0.861
+- Null mean AUC: 0.499 ± 0.011
+- Null max AUC: 0.532
+- N permutations >= observed: 0 / 200
+- p-value: 0.005
+
+**Publication-ready result:**
+AUC = 0.861 [95% CI: 0.839–0.881], permutation p = .005
+
+**Interpretation:** The null distribution is centered at chance (0.499)
+with SD = 0.011. The observed AUC of 0.861 is 0.329 units above the
+null maximum of 0.532. Zero of 200 permutations exceeded the observed
+AUC. The classifier performance is unambiguously above chance.
+
 **Status:** Built. Awaiting Colab run.
 
 
