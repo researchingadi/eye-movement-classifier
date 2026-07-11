@@ -2,24 +2,25 @@
 ### Eye-Tracking Machine Learning Classifier | Whitlock Lab
 
 [![Status](https://img.shields.io/badge/Status-Active%20Development-blue)]()
-[![Phase](https://img.shields.io/badge/Phase-Classifier%20Complete-green)]()
+[![Phase](https://img.shields.io/badge/Phase-Encoding%20Classifier%20Complete-green)]()
+[![Target](https://img.shields.io/badge/Target-Nature-red)]()
 [![Python](https://img.shields.io/badge/Python-3.10%2B-green)]()
 
 ---
 
 ## Overview
 
-This repository contains the full analysis pipeline for a binary machine learning classifier that predicts **memory encoding strategy** from eye movement data. Specifically, the classifier determines whether a given encoding trial came from an **Item Memory task**, where participants encoded individual object features or a **Relational Memory task**  where participants encoded how an object related to its background scene.
+This repository contains the full analysis pipeline for a binary machine learning classifier that predicts **memory encoding strategy** from eye movement data. Specifically, the classifier determines whether a given encoding trial came from an **Item Memory task** — where participants encoded individual object features — or a **Relational Memory task** — where participants encoded how an object related to its background scene.
 
-The central hypothesis is that these two encoding strategies produce detectably different gaze signatures. Item encoding should produce focal, object-directed scanning, while relational encoding should produce distributed scanning with frequent transitions between the object and scene. A classifier trained on eye movement features should be able to exploit these differences to reliably distinguish the two tasks and the features driving that classification should map onto the psychological theory.
+The central hypothesis is that these two encoding strategies produce detectably different gaze signatures. Item encoding should produce focal, object-directed scanning, while relational encoding should produce distributed scanning with frequent transitions between the object and scene. A classifier trained on eye movement features should be able to exploit these differences to reliably distinguish the two tasks — and the features driving that classification should map onto the psychological theory.
 
-This is a collaboration between **Prof. Jonathan Whitlock** (cognitive psychology, PI) and **[Adi Singh]** (ML and analysis).
+This is a collaboration between **Prof. Jonathan Whitlock** (cognitive psychology, PI) and **Adi Singh** (ML and analysis). The work is targeting publication in **Nature**.
 
 ---
 
-## Results (Encoding Phase Classifier)
+## Results — Encoding Phase Classifier
 
-> **AUC = 0.861 [95% CI: 0.839–0.881]**
+> **AUC = 0.861 [95% CI: 0.839–0.881], permutation p = .005**
 > Mean per-subject AUC = 0.867 ± 0.103 | Accuracy = 78.6% | Sensitivity = 81.3% | Specificity = 76.0%
 
 | Model | Pooled AUC | 95% CI | Mean Subject AUC |
@@ -28,8 +29,9 @@ This is a collaboration between **Prof. Jonathan Whitlock** (cognitive psycholog
 | Logistic Regression | 0.848 | [0.825–0.868] | 0.856 ± 0.107 |
 
 - Validated using **Leave-One-Subject-Out (LOSO)** cross-validation across 83 subjects
-- 95% CI computed via **subject-level cluster bootstrap** (2000 iterations)
-- 82/83 subjects (98.8%) classified above chance individually
+- 95% CI via **subject-level cluster bootstrap** (2000 iterations)
+- Permutation test: **p = .005** (200 within-subject shuffles, plus-one correction)
+- **82/83 subjects (98.8%)** classified above chance individually
 - Top SHAP feature: **early scene dwell time** — encoding strategy is detectable from the first 1333ms of viewing
 
 ---
@@ -38,17 +40,307 @@ This is a collaboration between **Prof. Jonathan Whitlock** (cognitive psycholog
 
 ### The Memory Distinction
 
-Human memory is not a single system. A foundational distinction in memory research separates **item memory** — the ability to recognize or recall individual objects or facts from **relational memory** the ability to remember how items are connected to each other or to their context. These two forms of memory are thought to rely on partially distinct neural systems, with the hippocampus playing a particularly important role in relational binding (Cohen & Eichenbaum, 1993; Eichenbaum et al., 1994).
+Human memory is not a single system. A foundational distinction in memory research separates **item memory** — the ability to recognize or recall individual objects or facts — from **relational memory** — the ability to remember how items are connected to each other or to their context. These two forms of memory rely on partially distinct neural systems, with the hippocampus playing a particularly important role in relational binding (Cohen & Eichenbaum, 1993).
 
-Critically, the *process* of forming these two types of memory is different. Encoding an object's features requires attention focused on that object. Encoding a relationship between an object and a scene requires distributed attention the eyes must move between the two elements, compare them, and integrate them into a unified representation.
+Encoding an object's features requires attention focused on that object. Encoding a relationship between an object and a scene requires distributed attention — the eyes must move between the two elements, compare them, and integrate them into a unified representation.
 
 ### Why Eye Movements
 
-Eye movements are the primary mechanism by which humans sample visual information from the world. Where you look determines what you encode. This means the gaze record is not merely a correlate of cognitive processing it is the channel through which visual encoding happens (Henderson, 2003). Prior work has established that:
+Eye movements are the primary mechanism by which humans sample visual information. Where you look determines what you encode (Henderson, 2003). Prior work has established that:
 
 - The number of fixations during encoding predicts subsequent memory strength (Loftus, 1972; Kafkas & Montaldi, 2011)
-- Object-to-scene gaze transitions during encoding are a direct behavioral index of relational binding (Ryan et al., 2000; Baym et al., 2014)
+- Object-to-scene gaze transitions are a direct behavioral index of relational binding (Ryan et al., 2000; Baym et al., 2014)
 - The spatial dispersion of fixations during encoding predicts subsequent familiarity strength (Ramey et al., 2020)
+- Saccade amplitude and fixation patterns differ systematically as a function of task demands (Castelhano et al., 2009)
+
+---
+
+## Experiment
+
+### Participants
+
+83 participants included in final analysis (1 excluded for insufficient trials). Eye movements recorded using an **SR Research EyeLink 1000** (1000 Hz). Task order counterbalanced across participants.
+
+### Task Design
+
+#### Item Task
+- **Encoding:** 36 trials. Same background scene on every trial. Unique object superimposed for 4 seconds. Participants judged whether the object would fit in a shoebox.
+- **Test:** 3-AFC. One studied object + two novel foils. Scene provides no discriminative information — recognition depends entirely on object memory.
+
+#### Relational Task
+- **Encoding:** 108 trials across 3 blocks. Unique scene-object pair every trial. Participants judged how well the object fit with the scene.
+- **Test:** 3-AFC. Three studied objects on one studied scene. Only the associate was paired with that scene at encoding — scene is the critical retrieval cue.
+
+### Apparatus
+
+| Parameter | Value |
+|---|---|
+| Eye-tracker | SR Research EyeLink 1000, tower mount |
+| Sampling rate | 1000 Hz |
+| Screen resolution | 1920 × 1080 pixels |
+| Viewing distance | 783mm (midpoint: 765mm top / 800mm bottom) |
+| Screen size | 23.8 inches diagonal (527.3 × 296.7mm) |
+| Pixels per degree | 99.4 px/deg |
+
+---
+
+## Data
+
+### Preprocessing Summary
+
+| Step | Action | Trials Before | Trials After | Removed |
+|---|---|---|---|---|
+| Raw | Loaded | 11,983 | — | — |
+| Step 1 | Filter target==1 | 11,983 | 6,002 | 5,981 (49.9%) |
+| Step 2 | Remove < 3 fixations | 6,002 | 5,664 | 338 |
+| Step 3 | Subject exclusion (≥65%) | 5,664 | 5,609 | 55 (Subject 2) |
+
+**Final dataset:** 83 subjects | 2,760 Item trials | 2,849 Relational trials | 56,561 fixations
+
+---
+
+## Feature Set
+
+All 19 features computed at the **trial level**. One row per trial in the feature matrix.
+
+### AOI Dwell (4)
+| Feature | Definition |
+|---|---|
+| Object dwell proportion | Total Duration on object / total Duration |
+| Scene dwell proportion | Total Duration on scene / total Duration |
+| Object fixation count | Number of fixations on object |
+| Scene fixation count | Number of fixations on scene |
+
+### Temporal Dwell — Thirds Split, Primary (6)
+Encoding window divided into thirds: **early** (0–1333ms), **middle** (1334–2666ms), **late** (2667–4000ms).
+
+| Feature | Definition |
+|---|---|
+| Early / Middle / Late object dwell | Duration on object in each third (ms) |
+| Early / Middle / Late scene dwell | Duration on scene in each third (ms) |
+
+*Halves split (0–2000ms / 2001–4000ms) computed as secondary exploratory analysis.*
+
+### Fixation Duration (2)
+| Feature | Definition |
+|---|---|
+| Mean fixation duration | Mean of all fixation durations (ms) |
+| First fixation latency to object | Onset time (ms) of first fixation on object AOI |
+
+### Transition and Sequence (4)
+| Feature | Definition |
+|---|---|
+| Object-scene transition count | Number of cross-AOI gaze switches (both directions) |
+| Transition entropy | Shannon H over {object→scene, scene→object}. NaN → 0 (zero transitions = zero entropy). |
+| Object revisit count | Returns to object AOI after leaving |
+| Scene revisit count | Returns to scene AOI after leaving |
+
+### Spatial (3)
+| Feature | Definition |
+|---|---|
+| Scanpath length | Sum of inter-fixation distances (degrees) |
+| Fixation dispersion | k-means + silhouette composite: N_clusters × mean centroid distance (Ramey et al., 2020) |
+| Saccade amplitude (mean) | Mean inter-fixation distance (degrees of visual angle) |
+
+---
+
+## Pipeline
+
+```
+Raw fixation data (CSV)
+        |
+        v
++-------------------------+
+|      PREPROCESSING      |
+|  - Filter target==1     |
+|  - Remove <3 fix trials |
+|  - Subject exclusions   |
+|    (>=65% of 36 trials) |
++----------+--------------+
+           |
+           v
++-------------------------+
+|   FEATURE EXTRACTION    |
+|  - 19 features          |
+|  - Trial-level          |
+|  - transition_entropy   |
+|    NaN -> 0 (principled)|
++----------+--------------+
+           |
+           v
++-------------------------+
+|    SANITY CHECK         |
+|  - Distributions        |
+|  - Effect sizes (Cohen d)|
+|  - Per-subject           |
+|    consistency          |
++----------+--------------+
+           |
+           v
++-------------------------+
+|       CLASSIFIER        |
+|  - Random Forest (500t) |
+|  - Logistic Regression  |
+|  - LOSO (83 folds)      |
+|  - Fold-safe impute +   |
+|    scale (no leakage)   |
++----------+--------------+
+           |
+           v
++-------------------------+
+|  SUBJECT DIAGNOSTIC     |
+|  - Per-subject AUC      |
+|  - Low-AUC flags        |
+|  - Trial count check    |
+|  - Balance check        |
++----------+--------------+
+           |
+           v
++-------------------------+
+|   STATISTICAL TESTS     |
+|  - Subject-level        |
+|    cluster bootstrap CI |
+|  - Permutation test     |
+|    (200 within-subject  |
+|     shuffles, p = .005) |
++----------+--------------+
+           |
+           v
++-------------------------+
+|     EXPLAINABILITY      |
+|  - SHAP TreeExplainer   |
+|  - All-subject model    |
+|  - Global importance    |
++-------------------------+
+```
+
+### Key Implementation Notes
+
+- `transition_entropy` NaN → 0 before modeling (zero transitions = zero entropy, principled not data-driven)
+- `first_fix_latency_obj_ms` (6 NaNs) uses median imputation inside each LOSO fold
+- Imputation and scaling fit on training data only inside each fold — no leakage
+- Decision threshold: 0.5 for all hard-label metrics (justified by balanced classes)
+- Both pooled AUC and mean per-subject AUC reported to eliminate researcher degrees of freedom
+
+---
+
+## Scripts
+
+| Script | Purpose | Status |
+|---|---|---|
+| `step1_preprocessing.py` | Data cleaning and exclusions | ✅ Complete |
+| `step2_feature_extraction.py` | 19 trial-level features | ✅ Complete |
+| `step3_sanity_check.py` | Pre-classifier feature validation | ✅ Complete |
+| `step4_classifier.py` | LOSO, AUC, bootstrap CI, SHAP | ✅ Complete |
+| `step4b_subject_diagnostic.py` | Per-subject AUC stability check | ✅ Complete |
+| `step4c_permutation_test.py` | Permutation test (p = .005) | ✅ Complete |
+| `step5_figures.py` | Publication figures | ✅ Complete |
+
+---
+
+## Outputs
+
+### Result Files
+
+| File | Description |
+|---|---|
+| `loso_predictions.csv` | Trial-level predictions — source of truth for all figures |
+| `loso_results_summary.json` | All metrics (AUC, CI, confusion matrix, per-subject AUCs) |
+| `shap_values.csv` | SHAP values per trial per feature |
+| `shap_feature_importance.csv` | Feature importance ranking (mean |SHAP|) |
+| `bootstrap_auc_random_forest.csv` | 2000 bootstrap AUC samples (RF) |
+| `bootstrap_auc_logistic_regression.csv` | 2000 bootstrap AUC samples (LR) |
+| `permutation_results.json` | Permutation test p-value and null distribution stats |
+| `permutation_null_dist_rf.csv` | 200 null AUC values |
+| `subject_diagnostic_summary.csv` | Per-subject AUC table |
+
+### Publication Figures
+
+| Figure | File | Description |
+|---|---|---|
+| Figure 1 | `figure1_roc.pdf` | ROC curve (RF + LR) + permutation null distribution |
+| Figure 2 | `figure2_confusion.pdf` | Confusion matrix, RF primary, metrics annotated |
+| Figure 3 | `figure3_shap.pdf` | SHAP bar chart + beeswarm, all 19 features |
+| Supplementary | `figure_s1_subject_auc.pdf` | Per-subject AUC distribution |
+
+---
+
+## Current Status
+
+| Stage | Status |
+|---|---|
+| Experiment design review | ✅ Complete |
+| Data audit | ✅ Complete |
+| Pre-build planning | ✅ Complete |
+| Preprocessing pipeline | ✅ Complete — 83 subjects, 5,609 trials |
+| Feature extraction | ✅ Complete — 19 features, all sanity checks passed |
+| Classifier (LOSO) | ✅ Complete — RF AUC = 0.861 [0.839–0.881] |
+| Subject diagnostic | ✅ Complete — 82/83 subjects above chance |
+| Bootstrap CI | ✅ Complete — subject-level cluster bootstrap |
+| Permutation test | ✅ Complete — p = .005 (200 permutations) |
+| Publication figures | ✅ Complete — 4 figures |
+| Methods section | ⏳ In progress |
+| Test phase classifier | ⏳ Next step |
+
+---
+
+## Dependencies
+
+```
+numpy >= 1.24.0
+pandas >= 2.0.0
+scipy >= 1.10.0
+scikit-learn >= 1.3.0
+shap >= 0.44.0
+matplotlib >= 3.7.0
+seaborn >= 0.12.0
+joblib >= 1.3.0
+```
+
+---
+
+## Reproducibility
+
+- All random seeds fixed at 42
+- Raw data never modified — all preprocessing produces new files in `data/processed/`
+- Every exclusion decision logged with counts and justification in `DOCUMENTATION.md`
+- All design decisions documented with source and rationale before any code was written
+- Preprocessing applied inside each LOSO fold — no data leakage
+- Results saved with timestamps — no outputs are overwritten
+
+---
+
+## References
+
+Castelhano, M. S., Mack, M. L., & Henderson, J. M. (2009). Viewing task influences eye movement control during active scene perception. *Journal of Vision, 9*(3), 6.
+
+Cohen, N. J., & Eichenbaum, H. (1993). *Memory, Amnesia, and the Hippocampal System.* MIT Press.
+
+Henderson, J. M. (2003). Human gaze control during real-world scene perception. *Trends in Cognitive Sciences, 7*, 498–504.
+
+Kafkas, A., & Montaldi, D. (2011). Recognition memory strength is predicted by pupillary responses at encoding while fixation patterns distinguish recollection from familiarity. *Quarterly Journal of Experimental Psychology, 64*, 1971–1989.
+
+Kardan, O., et al. (2015). Classifying mental states from eye movements during scene viewing. *Journal of Experimental Psychology: Human Perception and Performance, 41*, 1502–1514.
+
+Loftus, G. R. (1972). Eye fixations and recognition memory for pictures. *Cognitive Psychology, 3*, 525–551.
+
+Lundberg, S. M., & Lee, S.-I. (2017). A unified approach to interpreting model predictions. *NeurIPS.*
+
+Lundberg, S. M., et al. (2020). From local explanations to global understanding with explainable AI for trees. *Nature Machine Intelligence.*
+
+Ramey, M. M., Henderson, J. M., & Yonelinas, A. P. (2020). The spatial distribution of attention predicts familiarity strength during encoding and retrieval. *Journal of Experimental Psychology: General, 149*(11), 2046–2062.
+
+Ryan, J. D., Althoff, R. R., Whitlow, S., & Cohen, N. J. (2000). Amnesia is a deficit in relational memory. *Psychological Science, 11*, 454–461.
+
+---
+
+## License
+
+This repository is private and unpublished. All data, code, and documentation are confidential pending publication.
+
+---
+
+*Eye-tracking data collected using EyeLink 1000 (SR Research Ltd.). Analysis conducted in Python 3.10+.*- The spatial dispersion of fixations during encoding predicts subsequent familiarity strength (Ramey et al., 2020)
 - Saccade amplitude and fixation patterns differ systematically as a function of task demands (Castelhano et al., 2009; Henderson et al., 2013)
 
 The present project extends this literature by asking whether a machine learning classifier — trained on a battery of theoretically motivated eye movement features — can reliably decode *which kind of memory* a participant was forming on a given trial.
