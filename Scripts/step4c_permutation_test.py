@@ -16,7 +16,7 @@
 #   the primary model only.
 #
 # PARAMETERS:
-#   N_PERMUTATIONS = 500   — minimum p-value = 1/501 = 0.002 (publication quality)
+#   N_PERMUTATIONS = 200   — minimum p-value = 1/201 = 0.005 (publication quality)
 #   N_TREES_NULL   = 100   — 100 trees for null distribution (computational feasibility)
 #
 #   The observed AUC (0.861) was computed with 500 trees and is loaded
@@ -39,10 +39,10 @@
 #      p = (n_null >= observed + 1) / (N_PERMUTATIONS + 1)
 #
 # RUNTIME ESTIMATE:
-#   500 permutations x 83 folds x 100 trees
+#   200 permutations x 83 folds x 100 trees
 #   scikit-learn RF does not use GPU — runtime depends on CPU cores.
 #   n_jobs=-1 uses all available cores.
-#   Typical Colab runtime: 45-90 minutes.
+#   Typical Colab runtime: ~9-10 hours.
 #
 # INPUT:
 #   feature_matrix_encoding.csv   — feature matrix from Step 2
@@ -50,7 +50,7 @@
 #
 # OUTPUT:
 #   permutation_results.json      — p-value, null distribution stats
-#  permutation_null_dist_rf.csv  — 500 null AUC values for Step 5 figures
+#   permutation_null_dist_rf.csv  — 200 null AUC values for Step 5 figures
 #   Printed results report        — publication-ready p-value
 #
 # HOW TO RUN IN GOOGLE COLAB:
@@ -92,7 +92,7 @@ OUTPUT_JSON     = "permutation_results.json"
 OUTPUT_NULL_RF  = "permutation_null_dist_rf.csv"
 
 # ── Parameters ────────────────────────────────────────────────────────────────
-N_PERMUTATIONS  = 500    # minimum p = 1/501 = 0.002
+N_PERMUTATIONS  = 200    # minimum p = 1/201 = 0.005
 N_TREES_NULL    = 100    # null models only — observed AUC used 500 trees
 RANDOM_STATE    = 42     # for model fitting, same as Step 4
 
@@ -274,7 +274,7 @@ print()
 # CELL 4 — COMPUTE P-VALUE AND PRINT RESULTS
 #
 # Plus-one correction: p = (n_exceed + 1) / (N_PERMUTATIONS + 1)
-# Avoids p = 0.000. Minimum p = 1/501 = 0.001996, reported as p = .002
+# Avoids p = 0.000. Minimum p = 1/201 = 0.00498, reported as p = .005
 # =============================================================================
 
 print("=" * 65)
