@@ -1,0 +1,20 @@
+{
+  "n_permutations": 200,
+  "n_trees_null": 100,
+  "n_trees_observed": 500,
+  "random_state": 42,
+  "shuffle_method": "within-subject",
+  "p_value_correction": "plus-one",
+  "random_forest": {
+    "observed_auc": 0.8614794919142746,
+    "ci_lower": 0.8391228001165391,
+    "ci_upper": 0.88127815156628,
+    "null_mean_auc": 0.4991354295430383,
+    "null_sd_auc": 0.010807712487290929,
+    "null_max_auc": 0.5317641328510894,
+    "n_exceed": 0,
+    "p_value": 0.004975124378109453,
+    "p_string": "= 0.005",
+    "publication_result": "AUC = 0.861 [95% CI: 0.839-0.881], permutation p = 0.005"
+  }
+}
