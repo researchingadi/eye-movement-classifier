@@ -989,7 +989,12 @@ completed classifier outputs. Each figure saved as separate PDF at 300 DPI.
 **Color spec:** #2166AC (Item/RF), #D6604D (Relational/low),
 #888888 (neutral), #222222 (text), #F5F5F5 (annotation boxes only)
 
-**Status:** Built. Awaiting Colab run.
+**Status:** Complete. All four figures finalized and approved.
+
+- figure1_roc.pdf: Final. Legend upper-left, p-value annotation lower-right.
+- figure2_confusion.pdf: Final. No changes from first version.
+- figure3_shap.pdf: Final. Minor group label proximity noted but acceptable.
+- figure_s1_subject_auc.pdf: Final. No changes from first version.
 
 
 ---
