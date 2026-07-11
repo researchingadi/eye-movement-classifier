@@ -1077,6 +1077,13 @@ Foil-related features (dwell on foils, inter-object transitions,
 scene-to-foil transitions) expected to be informative in test phase
 classifier. Will be noted in paper discussion.
 
+### Step 4c permutation test — final run completed
+200 permutations completed in 568.9 minutes. Null AUCs ranged
+0.473–0.532, centered at 0.499 ± 0.011. Zero permutations exceeded
+observed AUC of 0.861. p = .005 (plus-one corrected).
+Publication-ready result locked:
+AUC = 0.861 [95% CI: 0.839–0.881], permutation p = .005
+All encoding phase validation complete. Ready for Step 5 figures.
 
 ---
 
