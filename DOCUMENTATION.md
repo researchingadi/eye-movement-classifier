@@ -1,7 +1,7 @@
 # Project Documentation
 ## Eye-Tracking Memory Task Classifier
 
-**Last Updated:** 10 July 2026  
+**Last Updated:** 11 July 2026  
 **Status:** Active — Encoding Phase complete
 **Collaborators:** Prof. Jonathan Whitlock (PI, cognitive psychology) | [Adi Singh] (ML & analysis)
 
